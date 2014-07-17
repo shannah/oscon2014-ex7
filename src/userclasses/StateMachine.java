@@ -10,12 +10,14 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
+import com.codename1.io.Util;
 import com.codename1.ui.Display;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.list.GenericListCellRenderer;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,7 +35,8 @@ public class StateMachine extends StateMachineBase {
     
     private java.util.List<Video> videoList;
     private Video selectedVideo;
-    private static String feedURL = "https://gdata.youtube.com/feeds/api/videos?q=xataface&max-results=30&v=2&alt=jsonc&orderby=published";
+    private static String feedURL = "https://gdata.youtube.com/feeds/api/videos?q=${query}&max-results=30&v=2&alt=jsonc&orderby=published";
+    private String currentQuery;
     
     public StateMachine(String resFile) {
         super(resFile);
@@ -47,9 +50,26 @@ public class StateMachine extends StateMachineBase {
      */
     protected void initVars(Resources res) {
         videoList = Collections.synchronizedList(new ArrayList<Video>());
+        currentQuery = "xataface";
     }
     
     
+    private String getFeedURL(){
+        
+        return StringUtil.replaceAll(feedURL, "${query}", Util.encodeUrl(currentQuery));
+    }
+    
+    private void updateVideoList(){
+        Display.getInstance().invokeAndBlock(new Runnable(){
+
+            public void run() {
+                Log.p("Feed URL "+getFeedURL());
+                videoList.clear();
+                videoList.addAll(fetchVideoList(getFeedURL()));
+            }
+
+        });
+    }
     
     
     private java.util.List<Video> fetchVideoList(String url){
@@ -59,7 +79,8 @@ public class StateMachine extends StateMachineBase {
             @Override
             protected void readResponse(InputStream input) throws IOException {
                 JSONParser p = new JSONParser();
-                Map data = p.parseJSON(new InputStreamReader(input));
+                
+                Map data = p.parseJSON(new InputStreamReader(input, "UTF-8"));
                 data = (Map)data.get("data");
                 java.util.List<Map> items = (java.util.List<Map>)data.get("items");
                 for (Map item : items){
@@ -83,6 +104,8 @@ public class StateMachine extends StateMachineBase {
         };
         req.setUrl(url);
         req.setPost(false);
+        //req.setContentType("application/json; charset=\"UTF-8\"");
+        
         NetworkManager.getInstance().addToQueueAndWait(req);
         
         return out;
@@ -94,16 +117,15 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected boolean initListModelVideoList(List cmp) {
+        updateVideoListModel(cmp);
+        
+        return true;
+    }
+
+    private void updateVideoListModel(List cmp){
         final java.util.List<Video> vids = new ArrayList<Video>();
         if ( videoList.isEmpty()){
-            Display.getInstance().invokeAndBlock(new Runnable(){
-
-                public void run() {
-                    
-                    videoList.addAll(fetchVideoList(feedURL));
-                }
-                
-            });
+            updateVideoList();
         }
         vids.addAll(videoList);
         
@@ -128,11 +150,8 @@ public class StateMachine extends StateMachineBase {
         }
         
         cmp.setModel(new com.codename1.ui.list.DefaultListModel(data));
-        
-        return true;
+        cmp.repaint();
     }
-
-    
 
     @Override
     protected void beforeMain(Form f) {
@@ -165,5 +184,14 @@ public class StateMachine extends StateMachineBase {
     protected void exitVideoPlayer(Form f) {
         WebBrowser wb = findVideoBrowser(f);
         wb.destroy();
+    }
+
+    @Override
+    protected void onMain_SearchFieldAction(Component c, ActionEvent event) {
+        currentQuery = ((AutoCompleteTextField)c).getText();
+        Log.p("Current query is "+currentQuery);
+        updateVideoList();
+        updateVideoListModel(findVideoList(c));
+    
     }
 }

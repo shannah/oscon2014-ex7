@@ -34,6 +34,7 @@ public abstract class StateMachineBase extends UIBuilder {
     public Container startApp(Resources res, String resPath, boolean loadTheme) {
         initVars();
         UIBuilder.registerCustomComponent("WebBrowser", com.codename1.components.WebBrowser.class);
+        UIBuilder.registerCustomComponent("AutoCompleteTextField", com.codename1.ui.AutoCompleteTextField.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
@@ -73,6 +74,7 @@ public abstract class StateMachineBase extends UIBuilder {
     public Container createWidget(Resources res, String resPath, boolean loadTheme) {
         initVars();
         UIBuilder.registerCustomComponent("WebBrowser", com.codename1.components.WebBrowser.class);
+        UIBuilder.registerCustomComponent("AutoCompleteTextField", com.codename1.ui.AutoCompleteTextField.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
@@ -182,6 +184,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("staticOn", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Label)findByName("staticOn", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.AutoCompleteTextField findSearchField(Component root) {
+        return (com.codename1.ui.AutoCompleteTextField)findByName("searchField", root);
+    }
+
+    public com.codename1.ui.AutoCompleteTextField findSearchField() {
+        com.codename1.ui.AutoCompleteTextField cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -548,10 +562,17 @@ public abstract class StateMachineBase extends UIBuilder {
                 onMain_VideoListAction(c, event);
                 return;
             }
+            if("searchField".equals(c.getName())) {
+                onMain_SearchFieldAction(c, event);
+                return;
+            }
         }
     }
 
       protected void onMain_VideoListAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMain_SearchFieldAction(Component c, ActionEvent event) {
       }
 
 }
