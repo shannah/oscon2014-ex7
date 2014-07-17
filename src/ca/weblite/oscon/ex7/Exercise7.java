@@ -1,6 +1,8 @@
 package ca.weblite.oscon.ex7;
 
 
+import com.codename1.io.Storage;
+import com.codename1.io.Util;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import userclasses.StateMachine;
@@ -22,6 +24,7 @@ public class Exercise7 {
                 Log.sendLog();
             }
         });*/
+        Util.register("Video", Video.class);
     }
 
     public void start() {

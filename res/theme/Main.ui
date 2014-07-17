@@ -10,4 +10,4 @@
   <component type="AutoCompleteTextField" name="searchField" cloudBoundProperty="text" cloudDestinationProperty="searchField" text="" >
     <layoutConstraint value="North" />
   </component>
-</component>
+<command name="Favourites" id="1" action="FavouritesForm" backCommand="false" /></component>

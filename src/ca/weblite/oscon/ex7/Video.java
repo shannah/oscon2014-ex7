@@ -6,13 +6,18 @@
 
 package ca.weblite.oscon.ex7;
 
+import com.codename1.io.Externalizable;
+import com.codename1.io.Util;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Date;
 
 /**
  *
  * @author shannah
  */
-public class Video {
+public class Video implements Externalizable {
     private String id;
     private String title;
     private String description;
@@ -177,5 +182,42 @@ public class Video {
      */
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public int getVersion() {
+        return 1;
+    }
+
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeUTF(id, out);
+        Util.writeUTF(title, out);
+        Util.writeUTF(description, out);
+        Util.writeUTF(category, out);
+        Util.writeUTF(uploader, out);
+        out.writeInt(duration);
+        Util.writeUTF(aspectRatio, out);
+        Util.writeUTF(thumbnailUrl, out);
+        Util.writeUTF(videoUrl, out);
+        out.writeLong(uploadDate.getTime());
+        out.writeLong(updatedDate.getTime());
+    
+    }
+
+    public void internalize(int version, DataInputStream in) throws IOException {
+        id = Util.readUTF(in);
+        title = Util.readUTF(in);
+        description = Util.readUTF(in);
+        category = Util.readUTF(in);
+        uploader = Util.readUTF(in);
+        duration = in.readInt();
+        aspectRatio = Util.readUTF(in);
+        thumbnailUrl = Util.readUTF(in);
+        videoUrl = Util.readUTF(in);
+        uploadDate = new Date(in.readLong());
+        updatedDate = new Date(in.readLong());
+    }
+
+    public String getObjectId() {
+        return "Video";
     }
 }

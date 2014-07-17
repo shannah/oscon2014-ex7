@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <component type="Container" name="VideoCellRenderer" cloudDestinationProperty="VideoCellRenderer" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="CheckBox" name="favourite" cloudDestinationProperty="favourite" text="" >
+    <layoutConstraint value="East" />
+  </component>
   <component type="Label" name="thumbnail_URLImage" cloudDestinationProperty="thumbnail_URLImage" scrollVisible="false" text="" icon="VideoPlaceholder.png" >
     <layoutConstraint value="West" />
   </component>

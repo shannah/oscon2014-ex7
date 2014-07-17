@@ -36,6 +36,7 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("WebBrowser", com.codename1.components.WebBrowser.class);
         UIBuilder.registerCustomComponent("AutoCompleteTextField", com.codename1.ui.AutoCompleteTextField.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
@@ -76,6 +77,7 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("WebBrowser", com.codename1.components.WebBrowser.class);
         UIBuilder.registerCustomComponent("AutoCompleteTextField", com.codename1.ui.AutoCompleteTextField.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
@@ -116,18 +118,6 @@ public abstract class StateMachineBase extends UIBuilder {
         this(res, null, loadTheme);
     }
 
-    public com.codename1.ui.Label findTitle(Component root) {
-        return (com.codename1.ui.Label)findByName("title", root);
-    }
-
-    public com.codename1.ui.Label findTitle() {
-        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("title", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Label)findByName("title", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.ui.Container findContainer1(Component root) {
         return (com.codename1.ui.Container)findByName("Container1", root);
     }
@@ -136,18 +126,6 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container1", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Container)findByName("Container1", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
-    public com.codename1.components.WebBrowser findVideoBrowser(Component root) {
-        return (com.codename1.components.WebBrowser)findByName("videoBrowser", root);
-    }
-
-    public com.codename1.components.WebBrowser findVideoBrowser() {
-        com.codename1.components.WebBrowser cmp = (com.codename1.components.WebBrowser)findByName("videoBrowser", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.components.WebBrowser)findByName("videoBrowser", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -176,6 +154,54 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.AutoCompleteTextField findSearchField(Component root) {
+        return (com.codename1.ui.AutoCompleteTextField)findByName("searchField", root);
+    }
+
+    public com.codename1.ui.AutoCompleteTextField findSearchField() {
+        com.codename1.ui.AutoCompleteTextField cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.List findVideoList(Component root) {
+        return (com.codename1.ui.List)findByName("videoList", root);
+    }
+
+    public com.codename1.ui.List findVideoList() {
+        com.codename1.ui.List cmp = (com.codename1.ui.List)findByName("videoList", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.List)findByName("videoList", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findTitle(Component root) {
+        return (com.codename1.ui.Label)findByName("title", root);
+    }
+
+    public com.codename1.ui.Label findTitle() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("title", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("title", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.components.WebBrowser findVideoBrowser(Component root) {
+        return (com.codename1.components.WebBrowser)findByName("videoBrowser", root);
+    }
+
+    public com.codename1.components.WebBrowser findVideoBrowser() {
+        com.codename1.components.WebBrowser cmp = (com.codename1.components.WebBrowser)findByName("videoBrowser", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.components.WebBrowser)findByName("videoBrowser", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Label findStaticOn(Component root) {
         return (com.codename1.ui.Label)findByName("staticOn", root);
     }
@@ -188,14 +214,14 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.AutoCompleteTextField findSearchField(Component root) {
-        return (com.codename1.ui.AutoCompleteTextField)findByName("searchField", root);
+    public com.codename1.ui.Label findThumbnailURLImage(Component root) {
+        return (com.codename1.ui.Label)findByName("thumbnail_URLImage", root);
     }
 
-    public com.codename1.ui.AutoCompleteTextField findSearchField() {
-        com.codename1.ui.AutoCompleteTextField cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", Display.getInstance().getCurrent());
+    public com.codename1.ui.Label findThumbnailURLImage() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("thumbnail_URLImage", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.AutoCompleteTextField)findByName("searchField", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.Label)findByName("thumbnail_URLImage", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -212,14 +238,14 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Label findThumbnailURLImage(Component root) {
-        return (com.codename1.ui.Label)findByName("thumbnail_URLImage", root);
+    public com.codename1.ui.List findFavouritesList(Component root) {
+        return (com.codename1.ui.List)findByName("favouritesList", root);
     }
 
-    public com.codename1.ui.Label findThumbnailURLImage() {
-        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("thumbnail_URLImage", Display.getInstance().getCurrent());
+    public com.codename1.ui.List findFavouritesList() {
+        com.codename1.ui.List cmp = (com.codename1.ui.List)findByName("favouritesList", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Label)findByName("thumbnail_URLImage", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.List)findByName("favouritesList", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -248,16 +274,49 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.List findVideoList(Component root) {
-        return (com.codename1.ui.List)findByName("videoList", root);
+    public com.codename1.ui.CheckBox findFavourite(Component root) {
+        return (com.codename1.ui.CheckBox)findByName("favourite", root);
     }
 
-    public com.codename1.ui.List findVideoList() {
-        com.codename1.ui.List cmp = (com.codename1.ui.List)findByName("videoList", Display.getInstance().getCurrent());
+    public com.codename1.ui.CheckBox findFavourite() {
+        com.codename1.ui.CheckBox cmp = (com.codename1.ui.CheckBox)findByName("favourite", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.List)findByName("videoList", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.CheckBox)findByName("favourite", aboutToShowThisContainer);
         }
         return cmp;
+    }
+
+    public static final int COMMAND_MainFavourites = 1;
+    public static final int COMMAND_FavouritesFormVideos = 2;
+
+    protected boolean onMainFavourites() {
+        return false;
+    }
+
+    protected boolean onFavouritesFormVideos() {
+        return false;
+    }
+
+    protected void processCommand(ActionEvent ev, Command cmd) {
+        switch(cmd.getId()) {
+            case COMMAND_MainFavourites:
+                if(onMainFavourites()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
+            case COMMAND_FavouritesFormVideos:
+                if(onFavouritesFormVideos()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
+        }
+        if(ev.getComponent() != null) {
+            handleComponentAction(ev.getComponent(), ev);
+        }
     }
 
     protected void exitForm(Form f) {
@@ -279,6 +338,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(f.getName())) {
+            exitFavouritesForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -292,6 +357,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void exitVideoCellRenderer(Form f) {
+    }
+
+
+    protected void exitFavouritesForm(Form f) {
     }
 
     protected void beforeShow(Form f) {
@@ -314,6 +383,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(f.getName())) {
+            beforeFavouritesForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -327,6 +402,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void beforeVideoCellRenderer(Form f) {
+    }
+
+
+    protected void beforeFavouritesForm(Form f) {
     }
 
     protected void beforeShowContainer(Container c) {
@@ -349,6 +428,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(c.getName())) {
+            beforeContainerFavouritesForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -362,6 +447,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void beforeContainerVideoCellRenderer(Container c) {
+    }
+
+
+    protected void beforeContainerFavouritesForm(Container c) {
     }
 
     protected void postShow(Form f) {
@@ -383,6 +472,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(f.getName())) {
+            postFavouritesForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -396,6 +491,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void postVideoCellRenderer(Form f) {
+    }
+
+
+    protected void postFavouritesForm(Form f) {
     }
 
     protected void postShowContainer(Container c) {
@@ -417,6 +516,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(c.getName())) {
+            postContainerFavouritesForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -430,6 +535,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void postContainerVideoCellRenderer(Container c) {
+    }
+
+
+    protected void postContainerFavouritesForm(Container c) {
     }
 
     protected void onCreateRoot(String rootName) {
@@ -451,6 +560,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(rootName)) {
+            onCreateFavouritesForm();
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -464,6 +579,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void onCreateVideoCellRenderer() {
+    }
+
+
+    protected void onCreateFavouritesForm() {
     }
 
     protected Hashtable getFormState(Form f) {
@@ -486,6 +605,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return h;
         }
 
+        if("FavouritesForm".equals(f.getName())) {
+            getStateFavouritesForm(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
             return h;
     }
 
@@ -499,6 +624,10 @@ public abstract class StateMachineBase extends UIBuilder {
 
 
     protected void getStateVideoCellRenderer(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateFavouritesForm(Form f, Hashtable h) {
     }
 
     protected void setFormState(Form f, Hashtable state) {
@@ -521,6 +650,12 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+        if("FavouritesForm".equals(f.getName())) {
+            setStateFavouritesForm(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
             return;
     }
 
@@ -536,15 +671,26 @@ public abstract class StateMachineBase extends UIBuilder {
     protected void setStateVideoCellRenderer(Form f, Hashtable state) {
     }
 
+
+    protected void setStateFavouritesForm(Form f, Hashtable state) {
+    }
+
     protected boolean setListModel(List cmp) {
         String listName = cmp.getName();
         if("videoList".equals(listName)) {
             return initListModelVideoList(cmp);
         }
+        if("favouritesList".equals(listName)) {
+            return initListModelFavouritesList(cmp);
+        }
         return super.setListModel(cmp);
     }
 
     protected boolean initListModelVideoList(List cmp) {
+        return false;
+    }
+
+    protected boolean initListModelFavouritesList(List cmp) {
         return false;
     }
 
@@ -567,12 +713,30 @@ public abstract class StateMachineBase extends UIBuilder {
                 return;
             }
         }
+        if(rootContainerName.equals("VideoCellRenderer")) {
+            if("favourite".equals(c.getName())) {
+                onVideoCellRenderer_FavouriteAction(c, event);
+                return;
+            }
+        }
+        if(rootContainerName.equals("FavouritesForm")) {
+            if("favouritesList".equals(c.getName())) {
+                onFavouritesForm_FavouritesListAction(c, event);
+                return;
+            }
+        }
     }
 
       protected void onMain_VideoListAction(Component c, ActionEvent event) {
       }
 
       protected void onMain_SearchFieldAction(Component c, ActionEvent event) {
+      }
+
+      protected void onVideoCellRenderer_FavouriteAction(Component c, ActionEvent event) {
+      }
+
+      protected void onFavouritesForm_FavouritesListAction(Component c, ActionEvent event) {
       }
 
 }

@@ -10,11 +10,13 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
+import com.codename1.io.Storage;
 import com.codename1.io.Util;
 import com.codename1.ui.Display;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
+import com.codename1.ui.list.DefaultListModel;
 import com.codename1.ui.list.GenericListCellRenderer;
 import com.codename1.ui.util.Resources;
 import com.codename1.util.StringUtil;
@@ -24,8 +26,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -37,6 +41,8 @@ public class StateMachine extends StateMachineBase {
     private Video selectedVideo;
     private static String feedURL = "https://gdata.youtube.com/feeds/api/videos?q=${query}&max-results=30&v=2&alt=jsonc&orderby=published";
     private String currentQuery;
+    private Set<String> favouriteIds;
+    private boolean favouritesDirty;
     
     public StateMachine(String resFile) {
         super(resFile);
@@ -51,6 +57,56 @@ public class StateMachine extends StateMachineBase {
     protected void initVars(Resources res) {
         videoList = Collections.synchronizedList(new ArrayList<Video>());
         currentQuery = "xataface";
+        favouriteIds = Collections.synchronizedSet(new HashSet<String>());
+        favouritesDirty = true;
+    }
+    
+    
+    private Set<String> getFavouriteIds(){
+        if ( favouritesDirty ){
+            favouriteIds.clear();
+            if ( Storage.getInstance().exists("favouriteIds")){
+                favouriteIds.addAll((java.util.List)Storage.getInstance().readObject("favouriteIds"));
+            }
+            favouritesDirty = false;
+            
+        }
+        return favouriteIds;
+    }
+    
+    private void addFavourite(Video video){
+        if ( !getFavouriteIds().contains(video.getId())){
+            getFavouriteIds().add(video.getId());
+            ArrayList<Video> favs = new ArrayList<Video>();
+            if ( Storage.getInstance().exists("favourites")){
+                favs.addAll((java.util.List)Storage.getInstance().readObject("favourites"));
+                
+                
+            } 
+            favs.add(video);
+            Storage.getInstance().writeObject("favourites", favs);
+            Storage.getInstance().writeObject("favouriteIds", getFavouriteIds());
+        }
+    }
+    
+    private void removeFavourite(Video video){
+        if ( getFavouriteIds().contains(video.getId())){
+            getFavouriteIds().remove(video.getId());
+            if ( Storage.getInstance().exists("favourites")){
+                java.util.List favs = (java.util.List)Storage.getInstance().readObject("favourites");
+                Video toRemove = null;
+                for ( Object o : favs ){
+                    Video v = (Video)o;
+                    if ( video.getId().equals(v.getId())){
+                        toRemove = v;
+                        break;
+                    }
+                }
+                favs.remove(toRemove);
+                Storage.getInstance().writeObject("favourites", favs);
+                Storage.getInstance().writeObject("favouriteIds", getFavouriteIds());
+            }
+        }
     }
     
     
@@ -129,6 +185,13 @@ public class StateMachine extends StateMachineBase {
         }
         vids.addAll(videoList);
         
+        cmp.setModel(createListModel(vids));
+        cmp.repaint();
+    }
+    
+    private DefaultListModel createListModel(java.util.List<Video> vids ){
+        
+        
         Map[] data = new Map[vids.size()];
         int i=0;
         for ( Video video : vids ){
@@ -143,14 +206,13 @@ public class StateMachine extends StateMachineBase {
             item.put("description", video.getDescription());
             item.put("uploader", video.getUploader());
             item.put("uploadDate", video.getUploadDate());
+            item.put("favourite", getFavouriteIds().contains(video.getId()));
             
             //Log.p(item+"");
             data[i++] = item;
             
         }
-        
-        cmp.setModel(new com.codename1.ui.list.DefaultListModel(data));
-        cmp.repaint();
+        return new com.codename1.ui.list.DefaultListModel(data);
     }
 
     @Override
@@ -165,9 +227,20 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void onMain_VideoListAction(Component c, ActionEvent event) {
-        List l = (List)c;
-        selectedVideo = (Video)((Map)l.getSelectedItem()).get("video");
-        showForm("VideoPlayer", null);
+        if ( event.getX() > Display.getInstance().getDisplayWidth() * 0.75){
+            List l = (List)c;
+            Video sel = (Video)((Map)l.getSelectedItem()).get("video");
+            if ( getFavouriteIds().contains(sel.getId())){
+                removeFavourite(sel);
+            } else {
+                addFavourite(sel);
+            }
+            
+        } else {
+            List l = (List)c;
+            selectedVideo = (Video)((Map)l.getSelectedItem()).get("video");
+            showForm("VideoPlayer",null);
+        }
         
     
     }
@@ -193,5 +266,36 @@ public class StateMachine extends StateMachineBase {
         updateVideoList();
         updateVideoListModel(findVideoList(c));
     
+    }
+
+    
+
+   
+
+    @Override
+    protected boolean initListModelFavouritesList(List cmp) {
+        java.util.List<Video> vids = new ArrayList<Video>();
+        if ( Storage.getInstance().exists("favourites")){
+            java.util.List favourites = (java.util.List)Storage.getInstance().readObject("favourites");
+            vids.addAll(favourites);
+        } 
+        cmp.setModel(createListModel(vids));
+        return true;
+    }
+
+    @Override
+    protected void beforeFavouritesForm(Form f) {
+        List list = this.findFavouritesList(f);
+        Container selectedCell = createContainer(fetchResourceFile(), "VideoCellRenderer");
+        
+        Container unselectedCell = createContainer(fetchResourceFile(), "VideoCellRenderer");
+        
+        list.setRenderer(new GenericListCellRenderer(selectedCell, unselectedCell));
+    }
+
+    @Override
+    protected void onFavouritesForm_FavouritesListAction(Component c, ActionEvent event) {
+        onMain_VideoListAction(c, event);
+        
     }
 }
