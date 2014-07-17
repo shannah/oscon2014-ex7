@@ -59,7 +59,7 @@ public class StateMachine extends StateMachineBase {
             @Override
             protected void readResponse(InputStream input) throws IOException {
                 JSONParser p = new JSONParser();
-                Map data = p.parseJSON(new InputStreamReader(input));
+                Map data = p.parseJSON(new InputStreamReader(input, "UTF-8"));
                 data = (Map)data.get("data");
                 java.util.List<Map> items = (java.util.List<Map>)data.get("items");
                 for (Map item : items){
