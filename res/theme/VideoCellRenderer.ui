@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Container" name="VideoCellRenderer" cloudDestinationProperty="VideoCellRenderer" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="Label" name="thumbnail_URLImage" cloudDestinationProperty="thumbnail_URLImage" scrollVisible="false" text="" icon="VideoPlaceholder.png" >
+    <layoutConstraint value="West" />
+  </component>
+  <component type="Container" name="Container" cloudDestinationProperty="Container" layout="BoxLayout" boxLayoutAxis="Y" >
+    <layoutConstraint value="Center" />
+    <component type="Label" name="title" cloudDestinationProperty="title" text="Title" >
+    </component>
+    <component type="Container" name="Container1" cloudDestinationProperty="Container1" >
+      <component type="Label" name="staticUploadedBy" cloudDestinationProperty="uploadedByLabel" uiid="SmallLabel" focusable="false" text="Uploaded by" >
+      </component>
+      <component type="Label" name="uploader" cloudDestinationProperty="uploader" uiid="SmallLabel" text="uploader" >
+      </component>
+      <component type="Label" name="staticOn" cloudDestinationProperty="Label" uiid="SmallLabel" text="on" >
+      </component>
+      <component type="Label" name="uploadDate" cloudDestinationProperty="uploadDate" uiid="SmallLabel" text="uploadDate" >
+      </component>
+    </component>
+  </component>
+</component>

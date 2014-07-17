@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="VideoPlayer" cloudDestinationProperty="VideoPlayer" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="Video Player" >
+  <component type="WebBrowser" name="videoBrowser" cloudDestinationProperty="videoBrowser" >
+    <layoutConstraint value="Center" />
+  </component>
+</component>

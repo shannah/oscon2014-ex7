@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource majorVersion="1" minorVersion="6" useXmlUI="false">
+    <ui name="Main" />
+    <theme name="Theme">
+        <val key="@includeNativeBool" value="true" />
+        <val key="SmallLabel.derive" value="Label" />
+        <val key="SmallLabel.fgColor" value="3399ff" />
+        <font key="SmallLabel.font" type="system" face="0" style="0" size="8" />
+        <val key="SmallLabel.padding" value="0,6,0,0" />
+    </theme>
+    <ui name="VideoCellRenderer" />
+    <image name="VideoPlaceholder.png" type="multi"  />
+    <ui name="VideoPlayer" />
+</resource>
